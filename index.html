@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div id="home" style="scroll-margin-top: 1000px; margin-top: 40vh;"></div>
+    <div id="home" style="scroll-margin-top: 1000px; margin-top: 35vh;"></div>
     <div class="mouse-circle"></div>
 
     <nav class="header">
@@ -26,19 +26,25 @@
     </nav>
 
     <div class="container">
-        <h1>Gavin Allison</h1>
-        <div class="subtitle">
-            Machine Learning • Computer Vision • Full-Stack Development<br>
-            Saskatoon, SK
+        <div class="section">
+            <h1>Gavin Allison</h1>
+            <div class="subtitle">
+                Full-Stack Development • Machine Learning • Computer Vision <br>
+            </div>
         </div>
 
         <div class="spacer"></div>
 
         <div class="section" id="about">
             <h2>About Me</h2>
-            <p>I am a Master’s student in Visual Computing specializing in machine learning and computer vision.
-            I have experience building ML pipelines, conducting object detection research, and developing
-            scalable full-stack applications. I enjoy solving complex problems involving data, models, and systems.</p>
+            <script>
+                fetch('about.html')
+                    .then(response => response.text())
+                    .then(data => {
+                        const section = document.getElementById('about');
+                        section.insertAdjacentHTML('beforeend', data);
+                    });
+            </script>
         </div>
 
         <div class="spacer"></div>
@@ -61,7 +67,6 @@
             <p>GitHub: <a href="https://github.com/Gavin-Allison">github.com/Gavin-Allison</a></p>
         </div>
 
-        <div class="spacer"></div>
     </div>
 
     <script>

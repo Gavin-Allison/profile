@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: Helvetica, sans-serif;
     margin: 0;
     background-color: #050e06;
     color: #e2e8f0;
@@ -76,7 +76,6 @@ body {
     width: 90vw;
     margin: auto;
     padding: 20px;
-    margin-top: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -100,8 +99,9 @@ h1 {
 .section {
     max-width: 900px;
     width: 100%;
+    min-height: 600px;
     margin-top: 50px;
-    scroll-margin-top: 200px;
+    scroll-margin-top: 150px;
 }
 
 .project {
@@ -119,10 +119,6 @@ ul {
 a {
     color: #22c55e;
     text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
 }
 
 .skills span {
@@ -150,9 +146,12 @@ a:hover {
 }
 
 .spacer {
-    height: 500px;
     width: 100%;
     border-bottom: 1px solid #22c55e;
+}
+
+p {
+    color: #a5aca7;
 }
 
 @media (max-width: 824px) {
