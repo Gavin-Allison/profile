@@ -94,7 +94,7 @@ h1 {
 .subtitle {
     text-align: center;
     margin-bottom: 20px;
-    color: #94a3b8;
+    color: #94b89d;
 }
 
 .section {
@@ -123,11 +123,6 @@ a {
 
 a:hover {
     text-decoration: underline;
-}
-
-.contact {
-    text-align: center;
-    margin-top: 30px;
 }
 
 .skills span {
