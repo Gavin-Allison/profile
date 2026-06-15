@@ -8,16 +8,21 @@
 </head>
 
 <body>
-    <div id="home" style="scroll-margin-top: 200px;"></div>
+    <div id="home" style="scroll-margin-top: 1000px; margin-top: 400px;"></div>
     <div class="mouse-circle"></div>
 
     <nav class="header">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#tech">Tech Stack</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-        <a href="resume.pdf" target="_blank" rel="noopener noreferrer">CV</a>
+        <div class="logo">Gavin Allison</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#tech">Tech Stack</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="cv-container">
+            <a href="resume.pdf" target="_blank" rel="noopener noreferrer">CV</a>
+        </div>
     </nav>
 
     <div class="container">
@@ -54,8 +59,9 @@
             <h2>Contact</h2>
             <p>Email: gavinallison007@gmail.com</p>
             <p>GitHub: <a href="https://github.com/Gavin-Allison">github.com/Gavin-Allison</a></p>
-            <div class="spacer"></div>
         </div>
+        
+        <div class="spacer"></div>
     </div>
 
     <script>
@@ -70,12 +76,17 @@
 
         window.addEventListener('scroll', () => {
             let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 350;
-                if (window.scrollY >= sectionTop) {
-                    current = section.getAttribute('id');
-                }
-            });
+            
+            if (window.scrollY < 200) {
+                current = 'home';
+            } else {
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 350;
+                    if (window.scrollY >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+            }
 
             navLinks.forEach(a => {
                 a.classList.remove('active');
