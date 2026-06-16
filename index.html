@@ -9,6 +9,7 @@
 
 <body>
     <div id="home" style="scroll-margin-top: 1000px; margin-top: 35vh;"></div>
+    
     <div class="mouse-circle"></div>
 
     <nav class="header">
@@ -16,7 +17,7 @@
         <div class="nav-links">
             <a href="#home">Home</a>
             <a href="#about">About</a>
-            <a href="#tech">Tech Stack</a>
+            <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
             <a href="#contact">Contact</a>
         </div>
@@ -37,26 +38,87 @@
 
         <div class="section" id="about">
             <h2>About Me</h2>
+            <div class="box about-box" id="about-container"></div>
             <script>
+                // Fetch dynamic about me content
                 fetch('about.html')
                     .then(response => response.text())
                     .then(data => {
-                        const section = document.getElementById('about');
-                        section.insertAdjacentHTML('beforeend', data);
+                        document.getElementById('about-container').innerHTML = data;
                     });
             </script>
         </div>
 
         <div class="spacer"></div>
 
-        <div class="section" id="tech">
-            <h2>Tech Stack</h2>
+        <div class="section" id="skills">
+            <h2>Skills</h2>
+            <div class="skills-grid">
+                
+                <div class="box skill-box">
+                    <img src="https://via.placeholder.com/80/1e293b/22c55e?text=Code" alt="Languages Icon">
+                    <h3>Languages</h3>
+                    <p>Proficient in writing clean and efficient code using Python, JavaScript, C++, and Java.</p>
+                </div>
+
+                <div class="box skill-box">
+                    <img src="https://via.placeholder.com/80/1e293b/22c55e?text=UI" alt="Frontend Icon">
+                    <h3>Frontend</h3>
+                    <p>Creating responsive, dynamic user interfaces utilizing React, HTML5, CSS3, and Tailwind.</p>
+                </div>
+
+                <div class="box skill-box">
+                    <img src="https://via.placeholder.com/80/1e293b/22c55e?text=API" alt="Backend Icon">
+                    <h3>Backend</h3>
+                    <p>Building secure and scalable RESTful APIs and databases with Node.js, Express, and PostgreSQL.</p>
+                </div>
+
+                <div class="box skill-box">
+                    <img src="https://via.placeholder.com/80/1e293b/22c55e?text=ML" alt="Machine Learning Icon">
+                    <h3>Machine Learning</h3>
+                    <p>Designing and training predictive models using PyTorch, TensorFlow, and scikit-learn.</p>
+                </div>
+
+                <div class="box skill-box">
+                    <img src="https://via.placeholder.com/80/1e293b/22c55e?text=CV" alt="Computer Vision Icon">
+                    <h3>Computer Vision</h3>
+                    <p>Implementing image processing, segmentation, and object detection pipelines using OpenCV and YOLO.</p>
+                </div>
+
+                <div class="box skill-box">
+                    <img src="https://via.placeholder.com/80/1e293b/22c55e?text=Tools" alt="Tools Icon">
+                    <h3>Tools</h3>
+                    <p>Streamlining development workflows with Git, Docker, AWS, and Linux environments.</p>
+                </div>
+
+            </div>
         </div>
 
         <div class="spacer"></div>
 
         <div class="section" id="projects">
             <h2>Projects</h2>
+            <div class="projects-grid">
+                
+                <div class="box project-box">
+                    <img src="https://via.placeholder.com/400x200/1e293b/22c55e?text=Investing+App" alt="Investing App Thumbnail">
+                    <h3>Web App for Investing Backtesting</h3>
+                    <p>A full-stack application designed to backtest investment strategies using historical market data and intuitive data visualizations.</p>
+                </div>
+
+                <div class="box project-box">
+                    <img src="https://via.placeholder.com/400x200/1e293b/22c55e?text=Object+Detection" alt="Object Detection Thumbnail">
+                    <h3>Object Detection Machine Learning Research Project</h3>
+                    <p>A machine learning research project focusing on training and optimizing real-time object detection models for high accuracy.</p>
+                </div>
+
+                <div class="box project-box">
+                    <img src="https://via.placeholder.com/400x200/1e293b/22c55e?text=Image+Pipeline" alt="Segmentation Thumbnail">
+                    <h3>Machine Learning Image Segmentation/Classification Pipeline</h3>
+                    <p>An end-to-end computer vision pipeline utilizing advanced neural networks for automated image classification and segmentation.</p>
+                </div>
+
+            </div>
         </div>
 
         <div class="spacer"></div>
@@ -74,11 +136,13 @@
         const sections = document.querySelectorAll('.section, #home');
         const navLinks = document.querySelectorAll('.header a');
 
+        // Mouse tracking glow effect
         document.addEventListener('mousemove', (e) => {
             circle.style.left = e.clientX + 'px';
             circle.style.top = e.clientY + 'px';
         });
 
+        // Scroll spy to highlight active nav link
         window.addEventListener('scroll', () => {
             let current = '';
             
