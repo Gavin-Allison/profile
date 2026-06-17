@@ -1,0 +1,131 @@
+<section class="project-portfolio">
+    <h1>Inter-Annotator Agreement on Object Detection Performance</h1>
+    
+    <p>
+        <strong>Goal:</strong> 
+        To quantify how inter-annotator disagreement affects the performance of deep learning computer vision models under supervision of Professor Mark Eramian at the University of Saskatchewan.
+    </p>
+    <p>
+        <strong>Technologies Used:</strong> 
+        Python, PyTorch, YOLOv8, <a href="https://www.kaggle.com/code/vencerlanz09/wind-turbines-object-detection-using-yolov8/notebook" target="_blank" rel="noopener noreferrer">Kaggle Dataset</a>.
+    </p>
+
+    <h3>Definitions:</h3>
+    <p>
+        <strong>Inter-Annotator Agreement:</strong> 
+        The level of consistency between independent annotators labelling the same data
+    </p>
+    <p>
+        <strong>mAP50 (Mean Average Precision 50):</strong> 
+        The percentage of correct predictions where the generated bounding box overlaps with the actual bounding box by at least 50%
+    </p>
+    
+    <hr>
+
+    <h2>The Problem</h2>
+    <p>
+        While it is clear that poor training annotations will make poor model outputs, the consistency between annotators on the same dataset can also have a large effect on the output. 
+        To quantify this effect, we engineered a pipeline to simulate both individual annotator inaccuracies and team disagreement to test how robust a model is to this kind of annotation
+    </p>
+
+    <h2>Methodology & Implementation</h2>
+    <p>
+        We used a pre-trained YOLOv8 architecture to establish a baseline mAP50 of 0.789 on a wind turbine dataset containing 2,885 images. 
+        Note that the image is at a reduced resolution to save training time at the cost of mAP50. 
+        As We ran many versions of training the same model, optimizing training time is more important than any single model output performance.
+    </p>
+    
+    <figure>
+        <img src="/projects/objdet_img/labeledimages.png" alt="Examples of labeled wind turbine images">
+    </figure>
+
+    <h3>Simulating Single-Annotator Error</h3>
+    <p>
+        We developed a custom algorithm to systematically transpose bounding boxes by generating coordinate offsets from a normal distribution. 
+        Using this algorithm, We created 10 distinct datasets with progressively higher perturbation to model worsening human error.
+    </p>
+    
+    <figure>
+        <img src="/projects/objdet_img/example.PNG" alt="Example of algorithmically perturbed bounding boxes">
+    </figure>
+
+    <p>
+        In the above, the red bounding box is the original image and the yellow bounding boxes are perturbed from the original.
+        This is an example of a strong perturbation that would have a large effect on a model.
+    </p>
+
+    <h3>Simulating Multi-Annotator Disagreement</h3>
+    <p>
+        Building on the individual error model, We constructed a multi-annotator environment by probabilistically combining these perturbed labels from different simulated user profiles. 
+        For example, some of the dataset would be taken from one simulated annotator and some from a different annotator. We organized these combinations into four groups of three experiments.
+        where each group has a different overall quality of annotation, while each experiment in a group sequentially decreases the inter-annotator agreement.
+    </p>
+
+    <p>
+        As an example we can consider a group that has a very high annotation quality overall. 
+        In this group we have three experiments: 
+    </p>
+
+    <ul>
+        <li><p>One where all annotations are taken from the very high quality dataset</p></li>
+        <li><p>One where half are taken from the very high quality dataset, and the rest from a slightly lower quality dataset</p></li>
+        <li><p>One where a third are taken from the very high quality dataset, a third from a slightly lower quality, and the rest from a more lower quality</p></li>
+    </ul>
+
+    <p>
+        We then run multiple of each of the three experiments for this group to account for randomness in training and which part of each dataset is chosen
+        As explained before, we will run three more of these groups, but at different levels of overall annotation quality.
+        This allows us to isolate inter-annotator agreement and compare it to performance at different levels of annotation quality.
+        Therefore, we can compare inter-annotator agreement, annotation quality, and performance.
+    </p>
+    
+    <hr>
+
+    <h2>Results</h2>
+
+    <figure>
+        <img src="/projects/objdet_img/matr.PNG" alt="Multi-Annotator Experiment Results" style="max-height: none;">
+    </figure>
+
+    <p>
+        Looking at our results, groups are seperated by the green lines. Each group has three experiments show by the vertically oriented dots.
+        Each blue dot is one test for an experiment. Each red dot is the average value for each of the tests.
+        The red line is the linear regression of all the data points.
+    </p>
+
+    <p>
+        Now we can determine that both overall annotation quality and inter-annotator agreement significantly impact model performance, though to varying degrees.
+    </p>
+
+    <p>
+        First, the overarching trend shows a highly predictable linear correlation (R² = 0.97 from a linear regression) from a decrease in annotation quality and the resulting mAP50. 
+        As the baseline accuracy of the bounding boxes degrades from the first group on the left to the fourth group on the right, the model's performance drops substantially, falling from a peak near 0.80 to below 0.60. 
+    </p>
+
+    <p>
+        More importantly, by examining the data within each of the four groups, we can isolate the specific effect of low inter-annotator agreement. 
+        As we progress from the first to the third experiment within any single group (excluding the fourth), we can see that the overall downward trend follows.
+        This indicates that inter-annotator agreement has a signifigant negative effect on model performance. In the worst cases, performance drops by ~8%.
+        Therefore, when training object detection models, we must make sure that bounding box annotation quality must not only be high, but consistently high.
+        It is highly likely that agreement also affects models other than object detection, but more research would be helpful in determining the comparitive severity.
+    </p>
+
+    <p>
+        As a side node, the fourth group is an outlier. Performance increases when agreement is decreased from experiment 10 to 11.
+        This is likely due to the model struggling to learn from data which is poor enough for bounding boxes to cover much less of the object than any reasonable annotator would create.
+        Also, we can see a large variation in performance between certain tests in the same experiments.
+        This tells us that how each model randomly chooses to learn from the data has a large impact on our results. To account for this, more testing is always better, like we have performed above.
+    </p>
+
+    <hr>
+
+    <h2>Conclusion</h2>
+
+    <p>
+        In summary, this project successfully quantified the impact of low inter-annotator agreement on object detection models. 
+        By developing a custom pipeline to simulate both individual bounding box inaccuracies and agreement, we demonstrated how these factors progressively degrade the performance of a YOLOv8 model. 
+        Our results confirm that while overall dataset quality dictates the ceiling for model performance, a lack of consensus between annotators causes a distinct and significant additional drop in accuracy.
+        Ultimately, this research emphasizes that to train robust computer vision models, data labeling must be both high-quality and rigorously consistent across all annotators.
+    </p>
+
+</section>

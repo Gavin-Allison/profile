@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <div class="spacer"></div>
+        <hr>
 
         <div class="section" id="about">
             <h2>About Me</h2>
@@ -49,7 +49,7 @@
             </script>
         </div>
 
-        <div class="spacer"></div>
+        <hr>
 
         <div class="section" id="skills">
             <h2>Skills</h2>
@@ -94,7 +94,7 @@
             </div>
         </div>
 
-        <div class="spacer"></div>
+        <hr>
 
         <div class="section" id="projects">
             <h2>Projects</h2>
@@ -104,24 +104,27 @@
                     <img src="https://via.placeholder.com/400x200/1e293b/22c55e?text=Investing+App" alt="Investing App Thumbnail">
                     <h3>Web App for Investing Backtesting</h3>
                     <p>A full-stack application designed to backtest investment strategies using historical market data and intuitive data visualizations.</p>
+                    <a href="projects/stockapp.html">More Details</a>
                 </div>
 
                 <div class="box project-box">
                     <img src="https://via.placeholder.com/400x200/1e293b/22c55e?text=Object+Detection" alt="Object Detection Thumbnail">
                     <h3>Object Detection Machine Learning Research Project</h3>
                     <p>A machine learning research project focusing on training and optimizing real-time object detection models for high accuracy.</p>
+                    <a href="projects/objdet.html">More Details</a>
                 </div>
 
                 <div class="box project-box">
                     <img src="https://via.placeholder.com/400x200/1e293b/22c55e?text=Image+Pipeline" alt="Segmentation Thumbnail">
                     <h3>Machine Learning Image Segmentation/Classification Pipeline</h3>
                     <p>An end-to-end computer vision pipeline utilizing advanced neural networks for automated image classification and segmentation.</p>
+                    <a href="projects/pipeline.html">More Details</a>
                 </div>
 
             </div>
         </div>
 
-        <div class="spacer"></div>
+        <hr>
 
         <div class="section" id="contact">
             <h2>Contact</h2>
@@ -129,6 +132,13 @@
             <p>GitHub: <a href="https://github.com/Gavin-Allison">github.com/Gavin-Allison</a></p>
         </div>
 
+    </div>
+
+    <div id="project-modal" class="modal-overlay">
+        <div class="modal-box-wrapper">
+            <span class="modal-close-btn">&times;</span>
+            <div id="modal-dynamic-content"></div>
+        </div>
     </div>
 
     <script>
@@ -163,6 +173,38 @@
                     a.classList.add('active');
                 }
             });
+        });
+
+        const modal = document.getElementById('project-modal');
+        const modalContent = document.getElementById('modal-dynamic-content');
+        const closeBtn = document.querySelector('.modal-close-btn');
+        const projectLinks = document.querySelectorAll('.project-box a');
+
+        projectLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const projectUrl = link.getAttribute('href');
+
+                fetch(projectUrl)
+                    .then(response => response.text())
+                    .then(htmlData => {
+                        modalContent.innerHTML = htmlData;
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    })
+                    .catch(err => console.error(err));
+            });
+        });
+
+        const closeModalWindow = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => { modalContent.innerHTML = ''; }, 300);
+        };
+
+        closeBtn.addEventListener('click', closeModalWindow);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModalWindow();
         });
     </script>
 </body>
