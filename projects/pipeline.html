@@ -1,0 +1,235 @@
+<section class="project-portfolio">
+    <h1>Semantic Segmentation through Classification-Routing</h1>
+
+    <p>
+        <strong>Goal:</strong> 
+        To evaluate whether splitting a generalized semantic segmentation model into multiple specialized models, combined through a classification-routing pipeline, can match a single generalized model across varying weather conditions.
+    </p>
+    <p>
+        <strong>Technologies Used:</strong> 
+        Python, PyTorch, ResNet-18, <a href="https://pytorch.org/hub/pytorch_vision_deeplabv3_resnet101/" target="_blank" rel="noopener noreferrer">Deeplabv3 model</a>, <a href="https://raidar-dataset.com/" target="_blank" rel="noopener noreferrer">RaidaR Dataset</a>.
+    </p>
+
+    <h3>Definitions:</h3>
+    <p>
+        <strong>Semantic Segmentation:</strong> 
+        The process of assigning a class label (such as "road", "building", or "person") to every single pixel in an image.
+    </p>
+    <p>
+        <strong>Pixel Accuracy:</strong> 
+        The percentage of pixels that are the same in the ground truth and the prediction.
+    </p>
+
+    <p>
+        <strong>mIoU (Mean Intersection over Union):</strong> 
+        The average ratio between the intersection and the union of the ground truth and predicted segmentation across all distinct classes. IoU is the amount of pixels that overlap between the prediction and the truth. Union is the combined area of both the prediction and the truth.
+    </p>
+
+    <hr>
+
+    <h2>The Problem</h2>
+    <p>
+        While creating a single unified model to handle all visually diverse domains is the standard approach, generalized semantic segmentation models often perform worse under imperfect or varying environmental conditions. 
+        For instance, a model trained on sunny-day images may struggle to accurately segment rainy or foggy scenarios. 
+        Creating one massive model that perfectly generalizes across all domains is difficult and computationally expensive.
+    </p>
+
+    <h2>Methodology & Implementation</h2>
+    <p>
+        To address this, I engineered a classification-routing pipeline. 
+        Instead of one large model handling all inputs, a lightweight classifier categorizes the image's environment, and the system routes it to a specialized expert segmentation model. 
+        I used the RaidaR dataset, consisting of rainy and sunny street scenes, resizing images to 1024x576 to optimize training time and manage compute limitations. 
+        As I ran multiple variations of these models, optimizing training time was highly prioritized, which splitting the dataset across multiple gpu's helped greatly with.
+    </p>
+
+    <figure>
+        <img src="projects/pipeline_img/raidar_example.png" alt="Example RaidaR Image with Semantic Segmentation">
+    </figure>
+
+    <h3>The Classification and Segmentation Models</h3>
+    <p>
+        I trained a ResNet-18 classifier pre-trained on ImageNet-1K to determine the weather condition (sunny or rainy) of each input image. 
+        For the segmentation tasks, I utilized pre-trained DeepLabV3 models. 
+        To help the segmentation models better identify low-frequency classes, I optimized them using a combination of Dice Loss and Focal Loss.
+    </p>
+
+    <h3>Pipeline Construction</h3>
+    <p>
+        I organized the experiments by comparing a generalized baseline model against the routed pipeline. 
+        The testing environment was constructed as follows:
+    </p>
+
+    <ul>
+        <li><p>A <strong>Baseline Model</strong> trained on the entire combined dataset (both sunny and rainy).</p></li>
+        <li><p><strong>Specialized Models</strong> (one for rainy, one for sunny), each trained exclusively on its respective weather subset.</p></li>
+        <li><p>The <strong>Pipeline</strong>, which uses the ResNet-18 classifier to intelligently route incoming testing images to the correct specialized model.</p></li>
+        <li><p>A <strong>Misrouting Pipeline</strong>, serving as a worst-case scenario where images are intentionally forced to the wrong specialized model.</p></li>
+    </ul>
+
+    <hr>
+
+    <h2>Results</h2>
+
+    <figure>
+        <img src="projects/pipeline_img/pipelineoutput.png" alt="Example Pipeline Output Compared to Ground Truth">
+    </figure>
+
+    <p>
+        Looking at the initial visual results above, I can see the pipeline output successfully mapping segmented classes to the target image. 
+        However, to properly evaluate the pipeline's effectiveness compared to a generalized approach, I must look at the overall numerical performance metrics across the entire testing dataset.
+    </p>
+
+    <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; text-align: left; width: 100%; margin: 20px 0;">
+        <thead>
+            <tr>
+                <th>Experiment</th>
+                <th>Loss</th>
+                <th>Accuracy</th>
+                <th>mIoU</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Baseline on All Data</td>
+                <td>0.2441</td>
+                <td>0.9141</td>
+                <td>0.6192</td>
+            </tr>
+            <tr>
+                <td>Sunny Model on All Data</td>
+                <td>0.2998</td>
+                <td>0.8840</td>
+                <td>0.5622</td>
+            </tr>
+            <tr>
+                <td>Rainy Model on All Data</td>
+                <td>0.2573</td>
+                <td>0.9100</td>
+                <td>0.6118</td>
+            </tr>
+            <tr>
+                <td>Pipeline on All Data</td>
+                <td>0.2298</td>
+                <td>0.9197</td>
+                <td>0.6401</td>
+            </tr>
+            <tr>
+                <td>Misrouting Pipeline on All Data</td>
+                <td>0.3131</td>
+                <td>0.8799</td>
+                <td>0.5544</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        Now I can determine that the classification-routing pipeline is able to match the baseline.
+        First, the overarching trend shows that the active Pipeline achieved the highest mIoU of 0.6401, alongside the lowest overall loss (0.2298) and highest pixel accuracy (0.9197). 
+        This confirms that introducing system modularity can allow specialized models to excel in their respective domains without dragging down generalized accuracy. 
+        However, my results are dependent on the ability to split a dataset into distinct domains. This method will not work nearly as well if there is no clear seperation in data.
+    </p>
+
+    <p>
+        To understand exactly where this performance increase is coming from, I can isolate the specific class breakdown in the data below.
+    </p>
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; text-align: left; width: 100%; margin: 20px 0; font-size: 0.9em;">
+    <thead>
+        <tr>
+            <th>Class</th>
+            <th>Base</th>
+            <th>Sunny</th>
+            <th>Rainy</th>
+            <th>Pipeline</th>
+            <th>Misroute</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Road</td>
+            <td>0.9015</td>
+            <td>0.8906</td>
+            <td>0.8982</td>
+            <td>0.9161</td>
+            <td>0.8870</td>
+        </tr>
+        <tr>
+            <td>Sidewalk</td>
+            <td>0.4150</td>
+            <td>0.2530</td>
+            <td>0.4172</td>
+            <td>0.4545</td>
+            <td>0.2540</td>
+        </tr>
+        <tr>
+            <td>Building</td>
+            <td>0.7401</td>
+            <td>0.6915</td>
+            <td>0.7113</td>
+            <td>0.7530</td>
+            <td>0.6622</td>
+        </tr>
+        <tr>
+            <td>Pole</td>
+            <td>0.3735</td>
+            <td>0.3147</td>
+            <td>0.3817</td>
+            <td>0.4052</td>
+            <td>0.3226</td>
+        </tr>
+        <tr>
+            <td>Plants</td>
+            <td>0.7256</td>
+            <td>0.6546</td>
+            <td>0.7131</td>
+            <td>0.7464</td>
+            <td>0.6421</td>
+        </tr>
+        <tr>
+            <td>Sky</td>
+            <td>0.9466</td>
+            <td>0.9263</td>
+            <td>0.9477</td>
+            <td>0.9477</td>
+            <td>0.9275</td>
+        </tr>
+        <tr>
+            <td>Person</td>
+            <td>0.1797</td>
+            <td>0.1247</td>
+            <td>0.1757</td>
+            <td>0.2010</td>
+            <td>0.1208</td>
+        </tr>
+        <tr>
+            <td>Car</td>
+            <td>0.6676</td>
+            <td>0.6358</td>
+            <td>0.6449</td>
+            <td>0.6929</td>
+            <td>0.6125</td>
+        </tr>
+    </tbody>
+</table>
+
+    <p>
+        The pipeline improved upon the baseline across every single tracked category. 
+        Therefore, distributing the learning workload allows the specialized models to pick up on finer details that a generalized model might miss.
+        However, looking at the classes with low mIoU (people and poles), the results are very poor.
+        This is likely due to the deeplabV3 model struggling to detect small objects in the image
+        Choosing a more modern model would likely give better results for these classes.
+    </p>
+
+    <p>
+        Crucially, testing the misrouting pipeline reveals a significant drop in overall mIoU down to 0.5544. 
+        Success relies heavily on the accuracy of the initial classifier. 
+        Passing rainy images to a sunny model severely degrades segmentation quality. 
+        This was not a problem for this project, as the ResNet-18 classifier had an accuracy of 97%.
+    </p>
+
+    <p>
+        Also, I observed a significant advantage in training efficiency. 
+        Training multiple specialized models in parallel drastically reduces computation time compared to training one massive generalized model sequentially. 
+        This efficiency only increases as more specialized segmentation models are added, making the pipeline particularly well-suited for exceptionally large, multi-domain datasets.
+    </p>
+
+</section>
