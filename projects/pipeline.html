@@ -224,6 +224,8 @@
         Success relies heavily on the accuracy of the initial classifier. 
         Passing rainy images to a sunny model severely degrades segmentation quality. 
         This was not a problem for this project, as the ResNet-18 classifier had an accuracy of 97%.
+        The misrouting pipeline performed about as well as the sunny model on both sunny and rainy images.
+        This means the rainy images are more difficult to segment when training on normal weather. Similar datasets to RaidaR must account for this.
     </p>
 
     <p>
