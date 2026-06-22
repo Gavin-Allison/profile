@@ -24,7 +24,7 @@ body {
 
 
 h1, h2 { color: var(--text-light); text-align: center; }
-h1 { font-size: 2.5em; }
+h1 { font-size: 5.0em; }
 p { color: var(--text-muted); }
 a { color: var(--accent); text-decoration: none; }
 ul { padding-left: 20px; }
@@ -166,11 +166,11 @@ strong {
 .skill-box h3 { margin: 0 0 10px 0; }
 .skill-box img { width: 64px; height: 64px; margin-bottom: 15px; border-radius: 8px; object-fit: cover; }
 
-.project-box { min-height: 500px; }
-.project-box h3 { margin: 0 0 15px 0; }
-.project-box img { width: 100%; height: 160px; margin-bottom: 20px; border-radius: 8px; object-fit: cover; }
+.project-box img { width: 100%; height: 160px; border-radius: 8px; object-fit: cover; }
+.project-box p { margin-bottom: 20px; }
 .project-box a {
     padding: 8px 16px;
+    margin-top: auto;
     font-weight: bold;
     color: var(--text-light);
     border: 1px solid var(--accent);
