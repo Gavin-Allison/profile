@@ -56,8 +56,19 @@ hr {
 
 .subtitle {
     text-align: center;
-    margin-bottom: 400px;
+    margin-bottom: 250px;
     color: #acacac;
+    
+}
+
+.subtitle img {
+    width: 50px;
+    margin: 20px;
+}
+
+.subtitle a:hover img {
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
 }
 
 .about {
@@ -81,8 +92,6 @@ strong {
     width: 100%;
     padding: 15px 20px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     box-sizing: border-box;
     background-color: var(--bg-card);
     backdrop-filter: blur(10px);
@@ -91,20 +100,17 @@ strong {
 }
 
 .header .logo {
+    margin-top: 5px;
     color: var(--text-light);
     font-size: 1.5em;
     font-weight: bold;
     white-space: nowrap;
     flex: 1;
-    margin-right: 32px;
 }
 
 .nav-links {
     display: flex;
     gap: 10px;
-    justify-content: center;
-    flex: 1;
-    margin-right: 32px;
 }
 
 .cv-container {
@@ -305,10 +311,12 @@ strong {
     .skills-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (max-width: 824px) {
-    .nav-links { display: none; }
-    .header { justify-content: center; }
-    .header .logo { margin: 0; }
+@media (max-width: 600px) {
+    .header a {
+        padding: 8px 8px;
+    }
+
+    h1 { font-size: 3.0em; }
 
     .modal-box-wrapper { 
         width: 100vw;
