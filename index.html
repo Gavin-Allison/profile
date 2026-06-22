@@ -20,7 +20,6 @@
             <a href="#about">About</a>
             <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
         </div>
         <div class="cv-container">
             <a href="resume.pdf" target="_blank" rel="noopener noreferrer">CV</a>
@@ -31,7 +30,9 @@
         <div class="section">
             <h1>Gavin Allison</h1>
             <div class="subtitle">
-                Full-Stack Development • Machine Learning • Computer Vision <br>
+                <p>Full-Stack Development • Machine Learning • Computer Vision</p>
+                <p>Email: gavinallison007@gmail.com</p>
+                <p>GitHub: <a href="https://github.com/Gavin-Allison">github.com/Gavin-Allison</a></p>
             </div>
         </div>
 
@@ -41,7 +42,7 @@
             <h2>About Me</h2>
             <div class="box about-box" id="about-container"></div>
             <script>
-                // Fetch dynamic about me content
+                // Fetch about me content
                 fetch('about.html')
                     .then(response => response.text())
                     .then(data => {
@@ -102,21 +103,21 @@
             <div class="projects-grid">
                 
                 <div class="box project-box">
-                    <img src="https://via.placeholder.com/400x200/1e293b/22c55e?text=Investing+App" alt="Investing App Thumbnail">
+                    <img src="projects\stockapp_img\schema.png" alt="Investing App Thumbnail">
                     <h3>Web App for Investing Backtesting</h3>
                     <p>A full-stack application designed to backtest investment strategies using historical market data and intuitive data visualizations.</p>
                     <a href="projects/stockapp.html">More Details</a>
                 </div>
 
                 <div class="box project-box">
-                    <img src="https://via.placeholder.com/400x200/1e293b/22c55e?text=Object+Detection" alt="Object Detection Thumbnail">
+                    <img src="projects\objdet_img\example.PNG" alt="Object Detection Thumbnail">
                     <h3>Object Detection Machine Learning Research Project</h3>
                     <p>A machine learning research project focusing on training and optimizing real-time object detection models for high accuracy.</p>
                     <a href="projects/objdet.html">More Details</a>
                 </div>
 
                 <div class="box project-box">
-                    <img src="https://via.placeholder.com/400x200/1e293b/22c55e?text=Image+Pipeline" alt="Segmentation Thumbnail">
+                    <img src="projects/pipeline_img/segmented.png" alt="Segmentation Thumbnail">
                     <h3>Machine Learning Image Segmentation/Classification Pipeline</h3>
                     <p>An end-to-end computer vision pipeline utilizing advanced neural networks for automated image classification and segmentation.</p>
                     <a href="projects/pipeline.html">More Details</a>
@@ -125,13 +126,7 @@
             </div>
         </div>
 
-        <hr>
-
-        <div class="section" id="contact">
-            <h2>Contact</h2>
-            <p>Email: gavinallison007@gmail.com</p>
-            <p>GitHub: <a href="https://github.com/Gavin-Allison">github.com/Gavin-Allison</a></p>
-        </div>
+        <hr
 
     </div>
 
