@@ -31,7 +31,7 @@
                 <a href="mailto:gavinallison@gmail.com"><img src="img\mail.svg" alt="Mail Icon"></a>
                 <a href="https://github.com/Gavin-Allison"><img src="img\github.svg" alt="Github Icon"></a>
                 <a href="https://www.linkedin.com/in/gavin-allison-"><img src="img\linkedin.svg" alt="Github Icon"></a>
-                <a href="resume.pdf"><img src="img\resume.svg" alt="Github Icon"></a>
+                <a href="resume/resume.html" class="modal-resume"><img src="img\resume.svg" alt="Resume Icon"></a>
             </div>
         </div>
 
@@ -77,12 +77,13 @@
                 </div>
 
                 <div class="box skill-box">
-                    <img src="img\code.svg" class="skill-icon" alt="Scripting Icon">
-                    <h3>Scripting</h3>
+                    <img src="img\tool.svg" class="skill-icon" alt="Tools Icon">
+                    <h3>Tools & Workflow</h3>
                     <p>
-                        Beyond building full-stack applications, I write robust shell scripts to automate repetitive tasks. 
-                        This drastically accelerates my overall development workflow. 
-                        Completely solving these repeatable problems allows me to focus on the more creative tasks in development like designing systems.
+                        I actively apply Agile methodologies within software development teams for industry projects. 
+                        I pair Git for strict version control with Docker for consistent modular systems. 
+                        This guarantees that my applications run reliably across all environments. 
+                        I also have experience deploying applications using Google Cloud Computing and Vercel hosting.
                     </p>
                 </div>
 
@@ -107,13 +108,12 @@
                 </div>
 
                 <div class="box skill-box">
-                    <img src="img\tool.svg" class="skill-icon" alt="Tools Icon">
-                    <h3>Tools & Workflow</h3>
+                    <img src="img\code.svg" class="skill-icon" alt="Scripting Icon">
+                    <h3>Scripting</h3>
                     <p>
-                        I actively apply Agile methodologies within software development teams for industry projects. 
-                        I pair Git for strict version control with Docker for consistent modular systems. 
-                        This guarantees that my applications run reliably across all environments. 
-                        I also have experience deploying applications using Google Cloud Computing and Vercel hosting.
+                        Beyond building full-stack applications, I write robust shell scripts to automate repetitive tasks. 
+                        This drastically speeds up my overall development workflow. 
+                        Completely solving these repeatable problems allows me to focus on the more creative tasks in development like designing systems.
                     </p>
                 </div>
 
@@ -194,6 +194,21 @@
                 }
             });
         });
+        const resumeLink = document.querySelector('.modal-resume')
+        resumeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const resumeUrl = resumeLink.getAttribute('href');
+
+            fetch(resumeUrl)
+                .then(response => response.text())
+                .then(htmlData => {
+                    modalContent.innerHTML = htmlData;
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                })
+                .catch(err => console.error(err));
+        });
+
 
         const modal = document.getElementById('project-modal');
         const modalContent = document.getElementById('modal-dynamic-content');
