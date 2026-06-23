@@ -1,0 +1,165 @@
+/* --- Resume Modal Layout --- */
+.resume-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    color: var(--text-muted);
+    font-family: Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+.resume-left-col {
+    flex: 0 0 32%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.resume-right-col {
+    flex: 0 0 62%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.resume-divider {
+    width: 2px;
+    background-color: var(--accent);
+    opacity: 0.4;
+    border-radius: 2px;
+}
+
+/* --- Resume Typography & Elements --- */
+.resume-name {
+    color: var(--text-light);
+    font-size: 2.5em !important;
+    margin: 0 0 10px 0;
+    text-align: left !important;
+    line-height: 1.1;
+}
+
+.resume-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.resume-heading {
+    color: var(--accent);
+    font-size: 1.1em;
+    border-bottom: 1px solid var(--accent-faded);
+    padding-bottom: 5px;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: left !important;
+}
+
+.resume-contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 0.95em;
+}
+
+.resume-contact-list a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.resume-contact-list a:hover {
+    color: var(--accent);
+}
+
+.resume-section p {
+    margin: 0;
+    font-size: 0.95em;
+}
+
+.resume-section strong {
+    color: var(--text-light);
+}
+
+.resume-item {
+    margin-bottom: 15px;
+}
+
+.resume-item:last-child {
+    margin-bottom: 0;
+}
+
+.resume-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.resume-item-header h3 {
+    color: var(--text-light) !important;
+    font-size: 1.1em !important;
+    margin: 0 !important;
+}
+
+.resume-item-header span {
+    color: var(--accent);
+    font-size: 0.9em;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.resume-institution, .resume-tech {
+    display: block;
+    font-style: italic;
+    color: #acacac;
+    font-size: 0.95em;
+    margin-top: 2px;
+    margin-bottom: 5px;
+}
+
+.resume-bullets {
+    padding-left: 20px;
+    margin: 5px 0 0 0;
+    font-size: 0.95em;
+    color: var(--text-muted);
+}
+
+.resume-bullets li {
+    margin-bottom: 6px;
+}
+
+.resume-pdf-btn {
+    position: absolute;
+    top: 18px;
+    right: 70px;
+    z-index: 10;
+    width: 35px;
+}
+
+.resume-pdf-btn:hover img {
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 900px) {
+    .resume-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .resume-divider {
+        width: 100%;
+        height: 2px;
+        margin: 10px 0;
+    }
+    
+    .resume-left-col, .resume-right-col {
+        flex: 1 1 100%;
+    }
+}

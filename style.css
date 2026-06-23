@@ -278,16 +278,29 @@ strong {
 
 .modal-close-btn {
     position: absolute;
-    top: 15px;
+    top: 12px;
     right: 25px;
-    font-size: 2em;
-    color: var(--text-muted);
+    font-size: 2.5em;
+    color: var(--accent);
     cursor: pointer;
     transition: color 0.2s ease;
 }
 
 .modal-close-btn:hover {
-    color: var(--accent);
+    color: var(--text-light);
+}
+
+.modal-link-button {
+    position: absolute;
+    top: 18px;
+    right: 70px;
+    z-index: 10;
+    width: 35px;
+}
+
+.modal-link-button:hover img {
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
 }
 
 #modal-dynamic-content h2, #modal-dynamic-content h3 {
