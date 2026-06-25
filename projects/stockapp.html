@@ -1,0 +1,119 @@
+<section class="project-portfolio">
+    <a href="https://github.com/Gavin-Allison/Stocks-App" class="modal-link-button" target="_blank" rel="noopener noreferrer"><img src="img\github.svg" alt="Github Icon"></a>
+    <h1>Stocks App: Full-Stack Portfolio Backtesting</h1>
+    
+    <p>
+        <strong>Overview:</strong> 
+        A full-stack portfolio tracking and transaction management application built to expand on static record-keeping by simulating dynamic investment strategies.
+        By pairing real historical market data with a custom ledger validation algorithm, the application allows users to accurately record trades, manage complex cash flows, and backtest automated schedules against actual past prices. 
+        The system supports multiple isolated portfolio experiments and relies on heavy frontend optimization to ensure the interface stays completely fluid and responsive while processing large-scale transaction histories and real-time computations.
+    </p>
+
+    <p>
+        <strong>Technologies Used:</strong> 
+        React 19, TypeScript, Zustand 5, Vite, Node.js, Express, PostgreSQL, Google Gemini 2.5 Flash, Zod, Lightweight Charts.
+    </p>
+
+    <hr>
+
+    <h2>Main Algorithm: ValidateLedger</h2>
+    <figure>
+        <img src="projects/stockapp_img/validateledger.png" alt="Validate Ledger Algorithm" style="max-height: none; max-width: 700px; display:block; margin: auto;">
+    </figure>
+    <p>
+        At the heart of the application is the ValidateLedger algorithm.
+        Whenever a transaction is drafted or committed, this engine processes the entire array of user actions chronologically.
+        It tracks running balances, calculates dynamic percentage-based buys using the specific historical price for that exact date, and features strict error propagation.
+        If a user attempts to overdraw cash or trigger a trade on a date with missing price data, the algorithm flags the error and safely ignores dependent subsequent transactions. 
+    </p>
+    <p>
+        Because this is a heavy computation, the algorithm is wrapped in a <code>useMemo</code> hook that only recalculates when the raw transaction array or price data changes, drastically reducing client-side CPU load.
+    </p>
+
+    <hr>
+
+    <h2>Frontend Implementation & State Management</h2>
+
+    <figure>
+        <img src="projects/stockapp_img/stockapppage.png" alt="DB Schema" style="max-height: none; max-width: 700px; display:block; margin: auto; border-radius: 0;">
+    </figure>
+
+    <strong>Layout</strong>
+    <p>
+        When building the layout for the application, I designed a dual-column interface to separate dynamic data visualization from active transaction management and portfolio results. 
+        I focus heavily on ensuring the interactive charts can efficiently handle complex historical data rendering. 
+        This guarantees that users maintain straightforward control over their visual market analysis. 
+        To support scalable trade execution, I develop custom logic for the right-side transaction sidebar to process trade inputs and automated schedules. 
+        I connect these systems to a live scrollable ledger, which allows me to reliably manage transaction records and ensure clear user error notification.
+    </p>
+
+    <strong>Transaction Management & Dynamic Allocation</strong>
+    <p>
+        Users can record a variety of portfolio actions, including one-time stock trades, cash deposits, and fee-adjusted withdrawals.
+        Beyond fixed-quantity trades, the application supports dynamic allocation.
+        Users can instruct the system to invest a specific percentage of their available cash, and the app automatically calculates the correct share volume based on the stock's exact historical price on that date.
+    </p>
+
+    <strong>Advanced Trade Scheduling</strong>
+    <p>
+        Instead of manually entering recurring trades, users can configure automated repeat schedules for any transaction type.
+        By setting custom frequencies, intervals, and occurrence limits, users can simulate long-term investment strategies like dollar-cost averaging.
+        The system automatically fetches the correct historical market data for each individual occurrence.
+    </p>
+
+    <strong>Portfolio Visualization & Strategy Tracking</strong>
+    <p>
+        To analyze performance, the application provides a dedicated results dashboard featuring real-time pie charts, detailed holdings breakdowns, and portfolio concentration metrics.
+        Users can also create and switch between multiple isolated portfolio experiments, enabling them to safely backtest and compare different investment strategies side-by-side without mixing transaction data.
+    </p>
+
+    <strong>Interactive Ledger & Batch Actions</strong>
+    <p>
+        The core transaction interface features a fully virtualized ledger that displays chronological trade histories alongside a running cash balance.
+        Users can preview draft transactions, highlight related batches of scheduled trades, and safely commit or clear actions while the system continuously monitors for potential overdraws or missing price data.
+    </p>
+
+    <strong>State Management</strong>
+    <p>
+        The frontend relies on Zustand for global state management, purposefully divided into three distinct slices: Main (portfolio-wide state and price data), Transaction (form inputs and batch UI state), and Ledger (computations).
+        By structuring the state this way and heavily utilizing memoized selectors, we prevented unnecessary re-renders across the application.
+    </p>
+
+    <strong>Memoization</strong>
+    <p>
+        Displaying large transaction histories can easily bottleneck a web application.
+        To solve this, the ledger UI utilizes react-window to virtualize the transaction list, ensuring only the visible rows are rendered to the DOM.
+        Combined with <code>React.memo()</code> for individual row components and optimized charting libraries (Lightweight Charts), the interface remains completely fluid even when processing hundreds of scheduled trades.
+    </p>
+
+    <hr>
+
+    <h2>Backend & Database Design</h2>
+    <figure>
+        <img src="projects/stockapp_img/schema.png" alt="DB Schema" style="max-height: none; max-width: 700px; display:block; margin: auto; border-radius: 0;">
+    </figure>
+
+    <strong>Database Architecture & Storage Strategy</strong>
+    <p>
+        I designed a strict relational schema using PostgreSQL to ensure that multiple portfolio backtest experiments remain completely isolated.
+        Each user gets as many experiments as they need, with each having as many transactions and stocks as they need.
+        I focus heavily on maximizing data integrity while strictly minimizing the underlying storage footprint.
+        Instead of storing redundant daily snapshots of the portfolio for every day, I deliberately choose to store only the absolute minimum raw data points required: users, experiments, active tickers, and multiple types of transactions.
+    </p>
+
+    <strong>Backend Data Orchestration</strong>
+    <p>
+        To support the heavy computational needs of the frontend, I built the backend to act as an efficient data orchestration layer rather than just a simple database proxy.
+        I connect the system to secure Google OAuth for authentication, and I integrate external market APIs to reliably fetch and validate real-time and historical pricing.
+        When an experiment loads, the server bundles all active stocks, transaction records, and price data into a single payload.
+        This guarantees that the client-side algorithm has everything it needs to process calculations smoothly without waiting on multiple staggered network requests.
+    </p>
+
+    <strong>Natural Language Transaction Parsing</strong>
+    <p>
+        Instead of manually filling out forms for complex, repeating transactions, users can type natural language prompts like <em>"Buy 50 AAPL at market on Jan 15, 2024. Then monthly for 6 months, invest 20% of remaining cash into TSLA."</em> 
+        This prompt is sent to the backend where the Google Gemini 2.5 Flash API evaluates it against strict system instructions.
+    </p>
+
+    <hr>
+</section>
