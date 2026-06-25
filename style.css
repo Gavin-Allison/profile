@@ -329,6 +329,10 @@ strong {
     z-index: 11;
 }
 
+.atext:hover {
+    color: var(--text-light);
+}
+
 /* --- Media Queries --- */
 @media (max-width: 1000px) {
     .projects-grid { grid-template-columns: 1fr; }
