@@ -352,6 +352,10 @@ strong {
         margin-top: 0;
     }
 
+    .header .nav-link {
+        padding: 8px 8px;
+    }
+
     h1 { font-size: 3.0em; }
 
     .modal-box-wrapper { 
