@@ -197,19 +197,21 @@
         });
 
         // Resume modal event listener
-        const resumeLink = document.querySelector('.modal-resume')
-        resumeLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            const resumeUrl = resumeLink.getAttribute('href');
+        const resumeLinks = document.querySelectorAll('.modal-resume, .resume-button');
+        resumeLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const resumeUrl = link.getAttribute('href');
 
-            fetch(resumeUrl)
-                .then(response => response.text())
-                .then(htmlData => {
-                    modalContent.innerHTML = htmlData;
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                })
-                .catch(err => console.error(err));
+                fetch(resumeUrl)
+                    .then(response => response.text())
+                    .then(htmlData => {
+                        modalContent.innerHTML = htmlData;
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    })
+                    .catch(err => console.error(err));
+            });
         });
 
 
