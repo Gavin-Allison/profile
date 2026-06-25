@@ -5,8 +5,7 @@ This is the source code for a personal portfolio website, designed to showcase p
 ## Tech Stack
 
 * Frontend: HTML5, CSS3, Vanilla JavaScript.
-* Icons: SVG-based icons.
-* Deployment Architecture: Built for static hosting environments like Vercel or Google Cloud.
+* Deployment Architecture: Built for static hosting environments like Github Pages
 
 ## File Structure
 
