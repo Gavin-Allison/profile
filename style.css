@@ -96,7 +96,7 @@ strong {
     background-color: var(--bg-card);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(34, 197, 94, 0.2);
-    z-index: 1000;
+    z-index: 15;
 }
 
 .header .logo {
@@ -225,7 +225,7 @@ strong {
     pointer-events: none;
     transform: translate(-50%, -50%);
     transition: transform 0.1s ease;
-    z-index: 9999;
+    z-index: 10;
     opacity: 0.1;
 }
 
@@ -239,7 +239,7 @@ strong {
     height: 100%;
     background-color: rgba(5, 14, 6, 0.85);
     backdrop-filter: blur(8px);
-    z-index: 2000;
+    z-index: 10;
     justify-content: center;
     align-items: center;
     opacity: 0;
@@ -315,6 +315,7 @@ strong {
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 20px;
+    z-index: 11;
 }
 
 /* --- Media Queries --- */
