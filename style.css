@@ -119,7 +119,7 @@ strong {
     justify-content: flex-end;
 }
 
-.header a {
+.header .nav-link {
     padding: 8px 16px;
     font-weight: bold;
     color: var(--text-light);
@@ -130,16 +130,26 @@ strong {
     white-space: nowrap;
 }
 
-.header a:hover, .header a.active {
+.header .nav-link:hover, .header .nav-link.active {
     background-color: var(--accent);
     color: var(--bg-main);
     transform: translateY(-3px);
     box-shadow: 0 6px 15px var(--accent-glow);
 }
 
-.header a:active {
+.header .nav-link:active {
     transform: scale(0.95) translateY(0);
     box-shadow: none;
+}
+
+.header img {
+    width: 30px;
+    margin-top: 2px;
+}
+
+.header img:hover {
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
 }
 
 /* --- Grids & Shared Boxes --- */
@@ -329,8 +339,17 @@ strong {
 }
 
 @media (max-width: 600px) {
-    .header a {
-        padding: 8px 8px;
+    .header {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding: 15px 10px;
+    }
+    
+    .header .logo {
+        flex: auto;
+        text-align: center;
+        margin-top: 0;
     }
 
     h1 { font-size: 3.0em; }
